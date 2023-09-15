@@ -1,0 +1,63 @@
+<div class="row border-bottom mb-4 mt-4">
+  <div class="col-md-8">
+    <p class="title">Crypto prices
+      <span>assets</span>
+    </p>
+  </div>
+  <div class="col-md-3">
+    <input type="decimal" class="form-control" id="investment"
+      aria-describedby="investmentHelp" data-url="<%= calcualte_custom_investment_path %>">
+    <div id="investmentHelp" class="text-help">Ingresa el monto de inversión.</div>
+  </div>
+  <div class="col-md-1">
+    <%= link_to root_path, class: 'btn btn-grey' do %>
+      <i class="fa-solid fa-rotate-right"></i>
+    <% end %>
+  </div>
+</div>
+
+<div class="row">
+  <div id="loading" class="d-flex visually-hidden  justify-content-center">
+    <i class="fa-solid fa-spinner fa-spin" style="color: #0052FF;"></i> Cargando...
+  </div>
+  <table id="investments" class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Nombre</th>
+        <th scope="col">Precio</th>
+        <th scope="col">Interes mensual</th>
+        <th scope="col">Inversión anual menos tu inversion </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% annual_investments.each do |investment| %>
+        <tr>
+          <th scope="col">
+           <p class="fs-2">
+              <%=image_tag "#{investment[:currency].downcase}.png", class: 'icon'%>
+              <%= investment[:name] %> 
+              <span class="abbreviation"> <%= investment[:currency] %> </span>
+            </p>
+            
+          </th>
+          <td> <%= investment[:price] %> </td>
+          <td> <%= investment[:monthly_interest] %> </td>
+          <td> <%= investment[:annual_investment] %> </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="row d-flex justify-content-end">
+  <div class="col-md-2">
+    <%= link_to export_csv_path(format: 'csv', csv_data: csv_data), id: "export_csv", class: 'btn btn-primary'  do %>
+      Descargar <i class="fa-solid fa-file-csv"></i>
+    <% end %>
+  </div>
+  <div class="col-md-2">
+    <%= link_to export_json_path(format: 'json', json_data: json_data), id: "export_json", class: 'btn btn-primary' do %>
+      Descargar <i class="fa-regular fa-file"></i>
+    <% end %>
+  </div>
+</div>
